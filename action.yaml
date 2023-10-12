@@ -1,0 +1,53 @@
+name: 'Spark 1 n0s1'
+description: 'Scans Project Management platforms (e.g. Jira, Linear) for secret leaks with n0s1'
+author: 'Spark 1'
+inputs:
+  scan-target:
+    description: 'Scan target platform to use for scanning secret leaks'
+    required: true
+    default: 'jira_scan'
+  user-email:
+    description: 'User email for target platform login'
+    required: false
+  password-key:
+    description: 'User password or API key'
+    required: true
+    default: ''
+  platform-url:
+    description: 'Your Jira instance URL'
+    required: false
+    default: '.'
+  post-comment:
+    description: 'Add a comment alerting about the leak to the ticket with the sensitive data'
+    required: false
+    default: ''
+  skip-comment:
+    description: 'Do not search for sensitive data at the tickets comment'
+    required: false
+    default: ''
+  regex-file:
+    description: 'Path to a custom regex configuration file'
+    required: false
+    default: ''
+  config-file:
+    description: 'Path to a custom scanning configuration file'
+    required: false
+    default: ''
+  report-file:
+    description: 'Path to output file'
+    required: false
+    default: '.'
+
+runs:
+  using: 'docker'
+  image: "Dockerfile"
+  args:
+    - '-a ${{ inputs.scan-target }}'
+    - '-b ${{ inputs.user-email }}'
+    - '-c ${{ inputs.password-key }}'
+    - '-d ${{ inputs.platform-url }}'
+    - '-e ${{ inputs.post-comment }}'
+    - '-f ${{ inputs.skip-comment }}'
+    - '-g ${{ inputs.regex-file }}'
+    - '-h ${{ inputs.config-file }}'
+    - '-i ${{ inputs.report-file }}'
