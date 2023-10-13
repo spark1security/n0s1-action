@@ -49,6 +49,8 @@ if [ $userEmail ];then
 fi
 if [ $passwordKey ];then
  ARGS="$ARGS --api-key $passwordKey"
+else
+ export passwordKey="Warning! Password key will be loaded from environment variables."
 fi
 if [ $platformURL ];then
  ARGS="$ARGS --server $platformURL"
