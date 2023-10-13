@@ -16,7 +16,7 @@ inputs:
   platform-url:
     description: 'Your Jira instance URL'
     required: false
-    default: '.'
+    default: ''
   post-comment:
     description: 'Add a comment alerting about the leak to the ticket with the sensitive data'
     required: false
@@ -36,7 +36,7 @@ inputs:
   report-file:
     description: 'Path to output file'
     required: false
-    default: '.'
+    default: ''
 
 runs:
   using: 'docker'
