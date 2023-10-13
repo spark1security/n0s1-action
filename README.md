@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
     
 jobs:
-  build:
+  jira_secret_scanning:
     name: Jira Scanning for Secret Leaks
     runs-on: ubuntu-20.04
     steps:
@@ -40,7 +40,7 @@ on:
   workflow_dispatch:
     
 jobs:
-  build:
+  linear_secret_scanning:
     name: Linear.app Scanning for Secret Leaks
     runs-on: ubuntu-20.04
     steps:
