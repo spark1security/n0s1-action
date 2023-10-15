@@ -37,6 +37,22 @@ inputs:
     description: 'Path to output file'
     required: false
     default: ''
+  secret-manager:
+    description: 'Secret manager tool name to be suggested when leaks are found.'
+    required: false
+    default: ''
+  contact-help:
+    description: 'Contact information for assistance when leaks are detected'
+    required: false
+    default: ''
+  label:
+    description: 'Unique identifier to be added to the comments so that the n0s1 bot can recognize if the leak has been previously flagged'
+    required: false
+    default: ''
+  show-matched-secret-on-logs:
+    description: 'By default, only a sanitized version of the leak is shwon on logs. This flag makes the actual leaked secret to be displayed on logs. Be extra careful when enabling this flag because you might make the leak worst by sending sensitive info to logs'
+    required: false
+    default: ''
 
 runs:
   using: 'docker'
@@ -51,3 +67,7 @@ runs:
     - '-g ${{ inputs.regex-file }}'
     - '-h ${{ inputs.config-file }}'
     - '-i ${{ inputs.report-file }}'
+    - '-j ${{ inputs.secret-manager }}'
+    - '-k ${{ inputs.contact-help }}'
+    - '-l ${{ inputs.label }}'
+    - '-m ${{ inputs.show-matched-secret-on-logs }}'

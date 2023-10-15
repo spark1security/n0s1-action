@@ -29,6 +29,18 @@ while getopts "a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:z:" o; do
        i)
          export reportFile=${OPTARG}
        ;;
+       j)
+         export secretManager=${OPTARG}
+       ;;
+       k)
+         export contactHelp=${OPTARG}
+       ;;
+       l)
+         export label=${OPTARG}
+       ;;
+       m)
+         export showMatchedSecretOnLogs=${OPTARG}
+       ;;
   esac
 done
 
@@ -41,6 +53,10 @@ export skipComment="${skipComment}"
 export regexFile="${regexFile}"
 export configFile="${configFile}"
 export reportFile="${reportFile}"
+export secretManager="${secretManager}"
+export contactHelp="${contactHelp}"
+export label="${label}"
+export showMatchedSecretOnLogs="${showMatchedSecretOnLogs}"
 
 
 ARGS=""
@@ -56,10 +72,10 @@ if [ $platformURL ];then
  ARGS="$ARGS --server $platformURL"
 fi
 if [ $postComment ];then
- ARGS="$ARGS --post-comment $postComment"
+ ARGS="$ARGS --post-comment"
 fi
 if [ $skipComment ];then
- ARGS="$ARGS --skip-comment $skipComment"
+ ARGS="$ARGS --skip-comment"
 fi
 if [ $regexFile ];then
  ARGS="$ARGS --regex-file $regexFile"
@@ -71,6 +87,18 @@ if [ $reportFile ];then
  ARGS="$ARGS --report-file $reportFile"
 else
  export reportFile="n0s1_report.json"
+fi
+if [ $secretManager ];then
+ ARGS="$ARGS --secret-manager $secretManager"
+fi
+if [ $contactHelp ];then
+ ARGS="$ARGS --contact-help $contactHelp"
+fi
+if [ $label ];then
+ ARGS="$ARGS --label $label"
+fi
+if [ $showMatchedSecretOnLogs ];then
+ ARGS="$ARGS --show-matched-secret-on-logs"
 fi
 
 echo "Running n0s1 with options: n0s1 ${scanTarget} ${ARGS}" | sed "s/$passwordKey/<REDACTED>/g"
