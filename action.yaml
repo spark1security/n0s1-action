@@ -1,5 +1,5 @@
 name: 'Spark 1 n0s1'
-description: 'Scans Project Management platforms (e.g. Jira, Linear) for secret leaks with n0s1'
+description: 'Scan Project Management platforms (e.g. Jira, Linear) for secret leaks with n0s1'
 author: 'Spark 1'
 inputs:
   scan-target:
