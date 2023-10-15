@@ -52,6 +52,58 @@ jobs:
           scan-target: 'linear_scan'
 ```
 
+### Customized Scans
+
+#### Example: Add comments to Jira
+Scan Jira for any instances of a secret leak on a ticket, and when one is detected, append a comment to the ticket, recommending that the participants utilize 1Password and contact security@yourcompany.com if they require assistance.
+```yaml
+name: jira_secret_scanning
+on:
+  schedule:
+    - cron: "0 10 *  *  *"
+  workflow_dispatch:
+    
+jobs:
+  jira_secret_scanning:
+    name: Jira Scanning for Secret Leaks
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Run n0s1 secret scanner on Jira
+        uses: spark1security/n0s1-action@main
+        env:
+          JIRA_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        with:
+          scan-target: 'jira_scan'
+          user-email: 'service_account@<YOUR_COMPANY>.atlassian.net'
+          platform-url: 'https://<YOUR_COMPANY>.atlassian.net'
+          post-comment: True
+          secret-manager: '1Password'
+          contact-help: 'security@yourcompany.com'
+```
+
+#### Example: Debug Linear.app findings
+Scan Linear.app for potential secret leaks and present the results in the GitHub Action logs. Please exercise caution, as including leaked secrets in the logs could exacerbate the issue by exposing the secrets to anyone with authorization to access the GitHub Action logs. Consider utilizing the 'show-matched-secret-on-logs' flag exclusively for debugging purposes. 
+```yaml
+name: linear_secret_scanning
+on:
+  schedule:
+    - cron: "0 11 *  *  *"
+  workflow_dispatch:
+    
+jobs:
+  linear_secret_scanning:
+    name: Linear.app Scanning for Secret Leaks
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Run n0s1 secret scanner on Linear
+        uses: spark1security/n0s1-action@main
+        env:
+          LINEAR_TOKEN: ${{ secrets.LINEAR_API_KEY }}
+        with:
+          scan-target: 'linear_scan'
+          show-matched-secret-on-logs: True
+```
+
 
 ## Community
 
