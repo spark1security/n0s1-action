@@ -81,6 +81,37 @@ jobs:
           contact-help: 'security@yourcompany.com'
 ```
 
+#### Example: Scan Jira an upload results to workflow artifact
+Scan Jira for any instances of a secret leak, and save the report file to "n0s1-artifact".
+```yaml
+name: jira_secret_scanning
+on:
+  schedule:
+    - cron: "0 10 *  *  *"
+  workflow_dispatch:
+    
+jobs:
+  jira_secret_scanning:
+    name: Jira Scanning for Secret Leaks
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Run n0s1 secret scanner on Jira
+        uses: spark1security/n0s1-action@main
+        env:
+          JIRA_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        with:
+          scan-target: 'jira_scan'
+          user-email: 'service_account@<YOUR_COMPANY>.atlassian.net'
+          platform-url: 'https://<YOUR_COMPANY>.atlassian.net'
+          report-file: 'jira_leaked_secrets.json'
+      - name: Upload n0s1 secret scan report
+        uses: actions/upload-artifact@v3
+        with:
+          name: n0s1-artifact
+          path: jira_leaked_secrets.json
+          retention-days: 5
+```
+
 #### Example: Debug Linear.app findings
 Scan Linear.app for potential secret leaks and present the results in the GitHub Action logs. Please exercise caution, as including leaked secrets in the logs could exacerbate the issue by exposing the secrets to anyone with authorization to access the GitHub Action logs. Consider utilizing the 'show-matched-secret-on-logs' flag exclusively for debugging purposes. 
 ```yaml
