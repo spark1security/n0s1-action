@@ -46,7 +46,7 @@ done
 
 export scanTarget="${scanTarget}"
 export userEmail="${userEmail}"
-export passwordKey="${passwordKey}"
+export passwordKey=$(echo "${passwordKey}" | tr -d " ")
 export platformURL="${platformURL}"
 export postComment="${postComment}"
 export skipComment="${skipComment}"
