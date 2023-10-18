@@ -44,6 +44,9 @@ while getopts "a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:z:" o; do
        n)
          export debug=${OPTARG}
        ;;
+       i)
+         export reportFormat=${OPTARG}
+       ;;
   esac
 done
 
@@ -61,6 +64,7 @@ export contactHelp="${contactHelp}"
 export label="${label}"
 export showMatchedSecretOnLogs="${showMatchedSecretOnLogs}"
 export debug="${debug}"
+export reportFormat="${reportFormat}"
 
 
 ARGS=""
@@ -106,6 +110,9 @@ if [ $showMatchedSecretOnLogs ];then
 fi
 if [ $debug ];then
  ARGS="$ARGS --debug"
+fi
+if [ $reportFormat ];then
+ ARGS="$ARGS --report-format $reportFormat"
 fi
 
 echo "Running n0s1 with options: n0s1 ${scanTarget} ${ARGS}" | sed "s/$passwordKey/<REDACTED>/g"

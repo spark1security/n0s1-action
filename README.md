@@ -81,6 +81,36 @@ jobs:
           contact-help: 'security@yourcompany.com'
 ```
 
+#### Example: Scan Jira an upload results GitHub Codescanning
+Scan Jira for any instances of a secret leak, and submit the findings to [GitHub Security Codescanning](https://docs.github.com/en/code-security/code-scanning/managing-your-code-scanning-configuration/about-the-tool-status-page#viewing-the-tool-status-page-for-a-repository).
+```yaml
+name: jira_secret_scanning
+on:
+  schedule:
+    - cron: "0 10 *  *  *"
+  workflow_dispatch:
+    
+jobs:
+  jira_secret_scanning:
+    name: Jira Scanning for Secret Leaks
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Run n0s1 secret scanner on Jira
+        uses: spark1security/n0s1-action@main
+        env:
+          JIRA_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        with:
+          scan-target: 'jira_scan'
+          user-email: 'service_account@<YOUR_COMPANY>.atlassian.net'
+          platform-url: 'https://<YOUR_COMPANY>.atlassian.net'
+          report-file: 'jira_leaked_secrets.sarif'
+          report-format: 'sarif'
+      - name: Upload n0s1 secret scan results to GitHub Security Codescanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: jira_leaked_secrets.sarif
+```
+
 #### Example: Scan Jira an upload results to workflow artifact
 Scan Jira for any instances of a secret leak, and save the report file to "n0s1-artifact".
 ```yaml

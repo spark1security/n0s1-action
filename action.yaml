@@ -57,6 +57,10 @@ inputs:
     description: 'Debug mode. Warning it may further expose sensitive data'
     required: false
     default: ''
+  report-format   :
+    description: 'Output report format. Supported formats: n0s1, SARIF, gitlab'
+    required: false
+    default: ''
 
 runs:
   using: 'docker'
@@ -76,3 +80,4 @@ runs:
     - '-l ${{ inputs.label }}'
     - '-m ${{ inputs.show-matched-secret-on-logs }}'
     - '-n ${{ inputs.debug }}'
+    - '-i ${{ inputs.report-format }}'
