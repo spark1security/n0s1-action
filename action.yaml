@@ -80,4 +80,4 @@ runs:
     - '-l ${{ inputs.label }}'
     - '-m ${{ inputs.show-matched-secret-on-logs }}'
     - '-n ${{ inputs.debug }}'
-    - '-i ${{ inputs.report-format }}'
+    - '-o ${{ inputs.report-format }}'
