@@ -59,8 +59,8 @@ runs:
   image: "Dockerfile"
   args:
     - '-a ${{ inputs.scan-target }}'
-    - '-b ${{ inputs.user-email }}'
-    - '-c ${{ inputs.password-key }}'
+    - '-b ${{ inputs.password-key }}'
+    - '-c ${{ inputs.user-email }}'
     - '-d ${{ inputs.platform-url }}'
     - '-e ${{ inputs.post-comment }}'
     - '-f ${{ inputs.skip-comment }}'
