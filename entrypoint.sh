@@ -41,12 +41,15 @@ while getopts "a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:z:" o; do
        m)
          export showMatchedSecretOnLogs=${OPTARG}
        ;;
+       n)
+         export debug=${OPTARG}
+       ;;
   esac
 done
 
 export scanTarget="${scanTarget}"
 export userEmail="${userEmail}"
-export passwordKey="${passwordKey}"
+export passwordKey=$(echo "${passwordKey}" | tr -d " ")
 export platformURL="${platformURL}"
 export postComment="${postComment}"
 export skipComment="${skipComment}"
@@ -57,6 +60,7 @@ export secretManager="${secretManager}"
 export contactHelp="${contactHelp}"
 export label="${label}"
 export showMatchedSecretOnLogs="${showMatchedSecretOnLogs}"
+export debug="${debug}"
 
 
 ARGS=""
@@ -99,6 +103,9 @@ if [ $label ];then
 fi
 if [ $showMatchedSecretOnLogs ];then
  ARGS="$ARGS --show-matched-secret-on-logs"
+fi
+if [ $debug ];then
+ ARGS="$ARGS --debug"
 fi
 
 echo "Running n0s1 with options: n0s1 ${scanTarget} ${ARGS}" | sed "s/$passwordKey/<REDACTED>/g"
