@@ -101,7 +101,7 @@ if [ $showMatchedSecretOnLogs ];then
  ARGS="$ARGS --show-matched-secret-on-logs"
 fi
 
-echo "Running n0s1 with options: n0s1 ${scanTarget} ${ARGS}" | sed "s/$passwordKey/<REDACTED>/g"
+echo "Running n0s1 with options: n0s1 ${scanTarget} ${ARGS}"
 n0s1 ${scanTarget} ${ARGS}
 returnCode=$?
 
