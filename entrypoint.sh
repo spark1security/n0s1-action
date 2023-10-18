@@ -6,10 +6,10 @@ while getopts "a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:z:" o; do
          export scanTarget=${OPTARG}
        ;;
        b)
-         export userEmail=${OPTARG}
+         export passwordKey=${OPTARG}
        ;;
        c)
-         export passwordKey=${OPTARG}
+         export userEmail=${OPTARG}
        ;;
        d)
          export platformURL=${OPTARG}
