@@ -101,6 +101,7 @@ if [ $showMatchedSecretOnLogs ];then
  ARGS="$ARGS --show-matched-secret-on-logs"
 fi
 
+env
 echo "Running n0s1 with options: n0s1 ${scanTarget} ${ARGS}"
 n0s1 ${scanTarget} ${ARGS}
 returnCode=$?
