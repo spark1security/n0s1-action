@@ -1,7 +1,7 @@
 # n0s1-action
 [GitHub Action](https://github.com/features/actions) for [n0s1](https://github.com/spark1security/n0s1)
 
-Runs n0s1 as GitHub action to scan Jira or Linear for secret leaks
+Run n0s1 secret scanner as GitHub action. Search for secret leaks on Jira, Confluence or Linear
 
 
 ## Usage
@@ -79,6 +79,35 @@ jobs:
           post-comment: True
           secret-manager: '1Password'
           contact-help: 'security@yourcompany.com'
+```
+
+#### Example: Use customized regexes
+Scan Linear with customized regex file ".github/workflows/config/my_regex.toml"
+```yaml
+name: linear_secret_scanning
+on:
+  schedule:
+    - cron: "0 11 *  *  *"
+  workflow_dispatch:
+    
+jobs:
+  linear_secret_scanning:
+    name: Linear.app Scanning for Secret Leaks
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          sparse-checkout: |
+            .github/workflows/config/my_regex.toml
+      - name: Run n0s1 secret scanner on Linear
+        uses: spark1security/n0s1-action@main
+        env:
+          LINEAR_TOKEN: ${{ secrets.LINEAR_API_KEY }}
+        with:
+          scan-target: 'linear_scan'
+          regex-file: '.github/workflows/config/my_regex.toml'
 ```
 
 #### Example: Scan Jira an upload results GitHub Codescanning
