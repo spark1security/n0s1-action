@@ -61,6 +61,18 @@ inputs:
     description: 'Output report format. Supported formats: n0s1, SARIF, gitlab'
     required: false
     default: ''
+  timeout:
+    description: 'HTTP request timeout in seconds'
+    required: false
+    default: ''
+  limit:
+    description: 'The limit of the number of pages to return per HTTP request'
+    required: false
+    default: ''
+  insecure:
+    description: 'Insecure mode. Ignore SSL certificate verification'
+    required: false
+    default: ''
 
 runs:
   using: 'docker'
@@ -81,3 +93,6 @@ runs:
     - '-m ${{ inputs.show-matched-secret-on-logs }}'
     - '-n ${{ inputs.debug }}'
     - '-o ${{ inputs.report-format }}'
+    - '-p ${{ inputs.timeout }}'
+    - '-q ${{ inputs.limit }}'
+    - '-r ${{ inputs.insecure }}'

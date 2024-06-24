@@ -47,6 +47,15 @@ while getopts "a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:z:" o; do
        o)
          export reportFormat=${OPTARG}
        ;;
+       p)
+         export timeout=${OPTARG}
+       ;;
+       q)
+         export limit=${OPTARG}
+       ;;
+       r)
+         export insecure=${OPTARG}
+       ;;
   esac
 done
 
@@ -65,6 +74,9 @@ export label="${label}"
 export showMatchedSecretOnLogs="${showMatchedSecretOnLogs}"
 export debug="${debug}"
 export reportFormat="${reportFormat}"
+export timeout="${timeout}"
+export limit="${limit}"
+export insecure="${insecure}"
 
 
 ARGS=""
@@ -113,6 +125,15 @@ if [ $debug ];then
 fi
 if [ $reportFormat ];then
  ARGS="$ARGS --report-format $reportFormat"
+fi
+if [ $timeout ];then
+ ARGS="$ARGS --timeout $timeout"
+fi
+if [ $limit ];then
+ ARGS="$ARGS --limit $limit"
+fi
+if [ $insecure ];then
+ ARGS="$ARGS --insecure"
 fi
 
 echo "Running n0s1 with options: n0s1 ${scanTarget} ${ARGS}" | sed "s/$passwordKey/<REDACTED>/g"
