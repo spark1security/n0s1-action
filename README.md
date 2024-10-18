@@ -142,7 +142,7 @@ jobs:
           regex-file: '.github/workflows/config/my_regex.toml'
 ```
 
-#### Example: Scan Jira and upload results GitHub Codescanning
+#### Example: Upload secret leaks report to GitHub Advanced Security dashboard
 Scan Jira tickets for secret leaks, and submit the findings to [GitHub Security Codescanning](https://docs.github.com/en/code-security/code-scanning/managing-your-code-scanning-configuration/about-the-tool-status-page#viewing-the-tool-status-page-for-a-repository).
 ```yaml
 name: jira_secret_scanning
