@@ -56,6 +56,15 @@ while getopts "a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:z:" o; do
        r)
          export insecure=${OPTARG}
        ;;
+       s)
+         export map=${OPTARG}
+       ;;
+       t)
+         export mapFile=${OPTARG}
+       ;;
+       u)
+         export scope=${OPTARG}
+       ;;
   esac
 done
 
@@ -77,6 +86,9 @@ export reportFormat="${reportFormat}"
 export timeout="${timeout}"
 export limit="${limit}"
 export insecure="${insecure}"
+export map="${map}"
+export mapFile="${mapFile}"
+export scope="${scope}"
 
 
 ARGS=""
@@ -134,6 +146,15 @@ if [ $limit ];then
 fi
 if [ $insecure ];then
  ARGS="$ARGS --insecure"
+fi
+if [ $map ];then
+ ARGS="$ARGS --map $map"
+fi
+if [ $mapFile ];then
+ ARGS="$ARGS --map-file $mapFile"
+fi
+if [ $scope ];then
+ ARGS="$ARGS --scope $scope"
 fi
 
 echo "Running n0s1 with options: n0s1 ${scanTarget} ${ARGS}" | sed "s/$passwordKey/<REDACTED>/g"

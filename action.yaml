@@ -73,6 +73,18 @@ inputs:
     description: 'Insecure mode. Ignore SSL certificate verification'
     required: false
     default: ''
+  map:
+    description: 'Enable mapping mode and define how many levels for the mapping'
+    required: false
+    default: ''
+  map-file:
+    description: 'Path to map file (e.g. n0s1_map.json). Use it for customizing the scope of the scan'
+    required: false
+    default: ''
+  scope:
+    description: 'Define a chunk of the map file to be scanned. Ex: 3/4 (will scan the third quarter of the map)'
+    required: false
+    default: ''
 
 runs:
   using: 'docker'
@@ -96,3 +108,6 @@ runs:
     - '-p ${{ inputs.timeout }}'
     - '-q ${{ inputs.limit }}'
     - '-r ${{ inputs.insecure }}'
+    - '-s ${{ inputs.map }}'
+    - '-t ${{ inputs.map-file }}'
+    - '-u ${{ inputs.scope }}'
