@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-while getopts "a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:z:" o; do
+while getopts "a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:w:z:" o; do
    case "${o}" in
        a)
          export scanTarget=${OPTARG}
@@ -65,6 +65,12 @@ while getopts "a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:z:" o; do
        u)
          export scope=${OPTARG}
        ;;
+       v)
+         export owner=${OPTARG}
+       ;;
+       w)
+         export repo=${OPTARG}
+       ;;
   esac
 done
 
@@ -89,6 +95,8 @@ export insecure="${insecure}"
 export map="${map}"
 export mapFile="${mapFile}"
 export scope="${scope}"
+export owner="${owner}"
+export repo="${repo}"
 
 
 ARGS=""
@@ -155,6 +163,12 @@ if [ $mapFile ];then
 fi
 if [ $scope ];then
  ARGS="$ARGS --scope $scope"
+fi
+if [ $owner ];then
+ ARGS="$ARGS --owner $owner"
+fi
+if [ $repo ];then
+ ARGS="$ARGS --repo $repo"
 fi
 
 echo "Running n0s1 with options: n0s1 ${scanTarget} ${ARGS}" | sed "s/$passwordKey/<REDACTED>/g"
