@@ -85,6 +85,14 @@ inputs:
     description: 'Define a chunk of the map file to be scanned. Ex: 3/4 (will scan the third quarter of the map)'
     required: false
     default: ''
+  owner:
+    description: 'GitHub owner (e.g. user or organization)'
+    required: false
+    default: ''
+  repo:
+    description: 'GitHub repository to be scanned. If omitted all accessible repos under the owner will be scanned'
+    required: false
+    default: ''
 
 runs:
   using: 'docker'
@@ -111,3 +119,5 @@ runs:
     - '-s ${{ inputs.map }}'
     - '-t ${{ inputs.map-file }}'
     - '-u ${{ inputs.scope }}'
+    - '-v ${{ inputs.owner }}'
+    - '-w ${{ inputs.repo }}'

@@ -1,7 +1,7 @@
 # n0s1-action
 [GitHub Action](https://github.com/features/actions) for [n0s1](https://github.com/spark1security/n0s1)
 
-Run n0s1 secret scanner as GitHub action. Search for secret leaks in Slack, Jira, Confluence, Asana, Wrike, Linear and Zendesk.
+Run n0s1 secret scanner as GitHub action. Search for secret leaks in Slack, Jira, Confluence, Asana, Wrike, Linear, Zendesk and GitHub.
 
 
 ## Usage
