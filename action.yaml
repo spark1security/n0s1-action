@@ -93,6 +93,10 @@ inputs:
     description: 'GitHub repository to be scanned. If omitted all accessible repos under the owner will be scanned'
     required: false
     default: ''
+  branch:
+    description: 'GitHub/GitLab repository branch to be scanned. If omitted all branches are scanned'
+    required: false
+    default: ''
 
 runs:
   using: 'docker'
@@ -121,3 +125,4 @@ runs:
     - '-u ${{ inputs.scope }}'
     - '-v ${{ inputs.owner }}'
     - '-w ${{ inputs.repo }}'
+    - '-z ${{ inputs.branch }}'

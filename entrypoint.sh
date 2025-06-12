@@ -71,6 +71,9 @@ while getopts "a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:w:z:" o; do
        w)
          export repo=${OPTARG}
        ;;
+       z)
+         export branch=${OPTARG}
+       ;;
   esac
 done
 
@@ -97,6 +100,7 @@ export mapFile="${mapFile}"
 export scope="${scope}"
 export owner="${owner}"
 export repo="${repo}"
+export branch="${branch}"
 
 
 ARGS=""
@@ -169,6 +173,9 @@ if [ $owner ];then
 fi
 if [ $repo ];then
  ARGS="$ARGS --repo $repo"
+fi
+if [ $branch ];then
+ ARGS="$ARGS --branch $branch"
 fi
 
 echo "Running n0s1 with options: n0s1 ${scanTarget} ${ARGS}" | sed "s/$passwordKey/<REDACTED>/g"
