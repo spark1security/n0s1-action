@@ -9,9 +9,10 @@ inputs:
   user-email:
     description: 'User email for target platform login'
     required: false
+    default: ''
   password-key:
     description: 'User password or API key'
-    required: true
+    required: false
     default: ''
   platform-url:
     description: 'Your Jira instance URL'
@@ -38,7 +39,7 @@ inputs:
     required: false
     default: ''
   secret-manager:
-    description: 'Secret manager tool name to be suggested when leaks are found.'
+    description: 'Secret manager tool name to be suggested when leaks are found'
     required: false
     default: ''
   contact-help:
@@ -46,22 +47,22 @@ inputs:
     required: false
     default: ''
   label:
-    description: 'Unique identifier to be added to the comments so that the n0s1 bot can recognize if the leak has been previously flagged'
+    description: 'Unique identifier for n0s1 bot comments'
     required: false
     default: ''
   show-matched-secret-on-logs:
-    description: 'By default, only a sanitized version of the leak is shown on logs. This flag makes the actual leaked secret to be displayed on logs. Be extra careful when enabling this flag because you might make the leak worst by sending sensitive info to logs'
+    description: 'Show actual leaked secret on logs (use for debugging only)'
     required: false
     default: ''
   private:
-    description: 'Private mode disables all interaction with the n0s1 backend service. Note: only Community mode is supported in this configuration. Authentication required for Professional mode is turned off when Private mode is enabled.a'
+    description: 'rivate mode disables all interaction with the n0s1 backend service'
     required: false
     default: ''
   debug:
     description: 'Debug mode. Warning it may further expose sensitive data'
     required: false
     default: ''
-  report-format   :
+  report-format:
     description: 'Output report format. Supported formats: n0s1, SARIF, gitlab'
     required: false
     default: ''
@@ -82,11 +83,11 @@ inputs:
     required: false
     default: ''
   map-file:
-    description: 'Path to map file (e.g. n0s1_map.json). Use it for customizing the scope of the scan'
+    description: 'Path to map file (e.g. n0s1_map.json)'
     required: false
     default: ''
   scope:
-    description: 'Define a chunk of the map file to be scanned. Ex: 3/4 (will scan the third quarter of the map)'
+    description: 'Define a chunk of the map file to be scanned. Ex: 3/4'
     required: false
     default: ''
   owner:
@@ -94,14 +95,13 @@ inputs:
     required: false
     default: ''
   repo:
-    description: 'GitHub repository to be scanned. If omitted all accessible repos under the owner will be scanned'
+    description: 'GitHub repository to be scanned'
     required: false
     default: ''
   branch:
-    description: 'GitHub/GitLab repository branch to be scanned. If omitted all branches are scanned'
+    description: 'GitHub/GitLab repository branch to be scanned'
     required: false
     default: ''
-
 runs:
   using: 'docker'
   image: "Dockerfile"
