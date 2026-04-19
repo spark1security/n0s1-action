@@ -29,32 +29,33 @@ For scripting or programmatic use outside of GitHub Actions, use the CLI, Docker
 
 ## Inputs Reference
 
-| Input | Required | Default | Description |
-|---|---|---|---|
-| `scan-target` | yes | `jira_scan` | Platform to scan. See valid values below. |
-| `password-key` | yes | _(empty)_ | API key or token for the target platform. |
-| `user-email` | no | | User email (Jira, Confluence, Zendesk). |
-| `platform-url` | no | | Server URL or subdomain depending on platform. |
-| `post-comment` | no | | If set, posts a warning comment on tickets with leaks. |
-| `skip-comment` | no | | If set, skips scanning ticket/issue comments. |
-| `regex-file` | no | | Path to custom `.yaml` or `.toml` regex patterns file. |
-| `config-file` | no | | Path to custom YAML configuration file. |
-| `report-file` | no | | Output file path for the scan report. |
-| `report-format` | no | | `n0s1` \| `sarif` \| `SARIF` \| `gitlab` |
-| `secret-manager` | no | | Secret manager name to recommend in warning comments. |
-| `contact-help` | no | | Contact info to include in warning comments. |
-| `label` | no | | Unique tag so the bot can detect previously flagged leaks. |
-| `show-matched-secret-on-logs` | no | | If set, logs the actual leaked secret. Use with caution. |
-| `debug` | no | | If set, enables verbose debug logging. |
-| `timeout` | no | | HTTP request timeout in seconds. |
-| `limit` | no | | Max pages per HTTP request. |
-| `insecure` | no | | If set, skips SSL certificate verification. |
-| `map` | no | | Mapping depth levels. Generates a map file; does NOT scan. |
-| `map-file` | no | | Path to an existing map file to scope the scan. |
-| `scope` | no | | Platform query or map chunk (see Scope section). |
-| `owner` | no | | GitHub/GitLab org or group name. |
-| `repo` | no | | Repository name or GitLab project path. |
-| `branch` | no | | Branch name(s). Comma-separated list accepted. |
+| Input                         | Required | Default | Description                                                          |
+|-------------------------------|---|---|----------------------------------------------------------------------|
+| `scan-target`                 | yes | `jira_scan` | Platform to scan. See valid values below.                            |
+| `password-key`                | yes | _(empty)_ | API key or token for the target platform.                            |
+| `user-email`                  | no | | User email (Jira, Confluence, Zendesk).                              |
+| `platform-url`                | no | | Server URL or subdomain depending on platform.                       |
+| `post-comment`                | no | | If set, posts a warning comment on tickets with leaks.               |
+| `skip-comment`                | no | | If set, skips scanning ticket/issue comments.                        |
+| `regex-file`                  | no | | Path to custom `.yaml` or `.toml` regex patterns file.               |
+| `config-file`                 | no | | Path to custom YAML configuration file.                              |
+| `report-file`                 | no | | Output file path for the scan report.                                |
+| `report-format`               | no | | `n0s1` \| `sarif` \| `SARIF` \| `gitlab`                             |
+| `secret-manager`              | no | | Secret manager name to recommend in warning comments.                |
+| `contact-help`                | no | | Contact info to include in warning comments.                         |
+| `label`                       | no | | Unique tag so the bot can detect previously flagged leaks.           |
+| `show-matched-secret-on-logs` | no | | If set, logs the actual leaked secret. Use with caution.             |
+| `private`                     | no | | If set, disable interaction with n0s1 backend. |
+| `debug`                       | no | | If set, enables verbose debug logging.                               |
+| `timeout`                     | no | | HTTP request timeout in seconds.                                     |
+| `limit`                       | no | | Max pages per HTTP request.                                          |
+| `insecure`                    | no | | If set, skips SSL certificate verification.                          |
+| `map`                         | no | | Mapping depth levels. Generates a map file; does NOT scan.           |
+| `map-file`                    | no | | Path to an existing map file to scope the scan.                      |
+| `scope`                       | no | | Platform query or map chunk (see Scope section).                     |
+| `owner`                       | no | | GitHub/GitLab org or group name.                                     |
+| `repo`                        | no | | Repository name or GitLab project path.                              |
+| `branch`                      | no | | Branch name(s). Comma-separated list accepted.                       |
 
 ### Valid `scan-target` values
 
