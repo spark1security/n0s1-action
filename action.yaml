@@ -54,6 +54,10 @@ inputs:
     description: 'Show actual leaked secret on logs (use for debugging only)'
     required: false
     default: ''
+  ai-analysis:
+    description: 'Send scan results to an AI agent to validate leaked credentials'
+    required: false
+    default: ''
   private:
     description: 'Private mode disables all interaction with the n0s1 backend service'
     required: false

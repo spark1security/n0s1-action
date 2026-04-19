@@ -27,6 +27,7 @@ OWNER="$(printenv 'INPUT_OWNER')"
 REPO="$(printenv 'INPUT_REPO')"
 BRANCH="$(printenv 'INPUT_BRANCH')"
 PRIVATE="$(printenv 'INPUT_PRIVATE')"
+AI_ANALYSIS="$(printenv 'INPUT_AI-ANALYSIS')"
 
 ARGS=""
 [ -n "$USER_EMAIL" ]     && ARGS="$ARGS --email $USER_EMAIL"
@@ -53,6 +54,7 @@ ARGS=""
 [ -n "$REPO" ]           && ARGS="$ARGS --repo $REPO"
 [ -n "$BRANCH" ]         && ARGS="$ARGS --branch $BRANCH"
 [ -n "$PRIVATE" ]        && ARGS="$ARGS --private"
+[ -n "$AI_ANALYSIS" ]    && ARGS="$ARGS --ai-analysis"
 
 LOG_MSG="Running n0s1 with options: n0s1 ${SCAN_TARGET} ${ARGS}"
 if [ -n "$PASSWORD_KEY" ]; then
