@@ -1,6 +1,106 @@
 name: 'Spark 1 n0s1'
 description: 'Scan Project Management platforms (e.g. Jira, Linear) for secret leaks with n0s1'
 author: 'Spark 1'
+inputs:
+  scan-target:
+    description: 'Scan target platform to use for scanning secret leaks'
+    required: true
+    default: 'jira_scan'
+  user-email:
+    description: 'User email for target platform login'
+    required: false
+  password-key:
+    description: 'User password or API key'
+    required: true
+    default: ''
+  platform-url:
+    description: 'Your Jira instance URL'
+    required: false
+    default: ''
+  post-comment:
+    description: 'Add a comment alerting about the leak to the ticket with the sensitive data'
+    required: false
+    default: ''
+  skip-comment:
+    description: 'Do not search for sensitive data at the tickets comment'
+    required: false
+    default: ''
+  regex-file:
+    description: 'Path to a custom regex configuration file'
+    required: false
+    default: ''
+  config-file:
+    description: 'Path to a custom scanning configuration file'
+    required: false
+    default: ''
+  report-file:
+    description: 'Path to output file'
+    required: false
+    default: ''
+  secret-manager:
+    description: 'Secret manager tool name to be suggested when leaks are found.'
+    required: false
+    default: ''
+  contact-help:
+    description: 'Contact information for assistance when leaks are detected'
+    required: false
+    default: ''
+  label:
+    description: 'Unique identifier to be added to the comments so that the n0s1 bot can recognize if the leak has been previously flagged'
+    required: false
+    default: ''
+  show-matched-secret-on-logs:
+    description: 'By default, only a sanitized version of the leak is shown on logs. This flag makes the actual leaked secret to be displayed on logs. Be extra careful when enabling this flag because you might make the leak worst by sending sensitive info to logs'
+    required: false
+    default: ''
+  private:
+    description: 'Private mode disables all interaction with the n0s1 backend service. Note: only Community mode is supported in this configuration. Authentication required for Professional mode is turned off when Private mode is enabled.a'
+    required: false
+    default: ''
+  debug:
+    description: 'Debug mode. Warning it may further expose sensitive data'
+    required: false
+    default: ''
+  report-format   :
+    description: 'Output report format. Supported formats: n0s1, SARIF, gitlab'
+    required: false
+    default: ''
+  timeout:
+    description: 'HTTP request timeout in seconds'
+    required: false
+    default: ''
+  limit:
+    description: 'The limit of the number of pages to return per HTTP request'
+    required: false
+    default: ''
+  insecure:
+    description: 'Insecure mode. Ignore SSL certificate verification'
+    required: false
+    default: ''
+  map:
+    description: 'Enable mapping mode and define how many levels for the mapping'
+    required: false
+    default: ''
+  map-file:
+    description: 'Path to map file (e.g. n0s1_map.json). Use it for customizing the scope of the scan'
+    required: false
+    default: ''
+  scope:
+    description: 'Define a chunk of the map file to be scanned. Ex: 3/4 (will scan the third quarter of the map)'
+    required: false
+    default: ''
+  owner:
+    description: 'GitHub owner (e.g. user or organization)'
+    required: false
+    default: ''
+  repo:
+    description: 'GitHub repository to be scanned. If omitted all accessible repos under the owner will be scanned'
+    required: false
+    default: ''
+  branch:
+    description: 'GitHub/GitLab repository branch to be scanned. If omitted all branches are scanned'
+    required: false
+    default: ''
 
 runs:
   using: 'docker'
