@@ -54,5 +54,10 @@ ARGS=""
 [ -n "$BRANCH" ]         && ARGS="$ARGS --branch $BRANCH"
 [ -n "$PRIVATE" ]        && ARGS="$ARGS --private"
 
-echo "Running n0s1 with options: n0s1 ${SCAN_TARGET} ${ARGS}" | sed "s/$PASSWORD_KEY/<REDACTED>/g"
+LOG_MSG="Running n0s1 with options: n0s1 ${SCAN_TARGET} ${ARGS}"
+if [ -n "$PASSWORD_KEY" ]; then
+    echo "$LOG_MSG" | sed "s/$PASSWORD_KEY/<REDACTED>/g"
+else
+    echo "$LOG_MSG"
+fi
 n0s1 ${SCAN_TARGET} ${ARGS}
