@@ -1,184 +1,58 @@
 #!/bin/bash
 set -e
-while getopts "a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:w:z:" o; do
-   case "${o}" in
-       a)
-         export scanTarget=${OPTARG}
-       ;;
-       b)
-         export userEmail=${OPTARG}
-       ;;
-       c)
-         export passwordKey=${OPTARG}
-       ;;
-       d)
-         export platformURL=${OPTARG}
-       ;;
-       e)
-         export postComment=${OPTARG}
-       ;;
-       f)
-         export skipComment=${OPTARG}
-       ;;
-       g)
-         export regexFile=${OPTARG}
-       ;;
-       h)
-         export configFile=${OPTARG}
-       ;;
-       i)
-         export reportFile=${OPTARG}
-       ;;
-       j)
-         export secretManager=${OPTARG}
-       ;;
-       k)
-         export contactHelp=${OPTARG}
-       ;;
-       l)
-         export label=${OPTARG}
-       ;;
-       m)
-         export showMatchedSecretOnLogs=${OPTARG}
-       ;;
-       n)
-         export debug=${OPTARG}
-       ;;
-       o)
-         export reportFormat=${OPTARG}
-       ;;
-       p)
-         export timeout=${OPTARG}
-       ;;
-       q)
-         export limit=${OPTARG}
-       ;;
-       r)
-         export insecure=${OPTARG}
-       ;;
-       s)
-         export map=${OPTARG}
-       ;;
-       t)
-         export mapFile=${OPTARG}
-       ;;
-       u)
-         export scope=${OPTARG}
-       ;;
-       v)
-         export owner=${OPTARG}
-       ;;
-       w)
-         export repo=${OPTARG}
-       ;;
-       z)
-         export branch=${OPTARG}
-       ;;
-  esac
-done
 
-export scanTarget="${scanTarget}"
-export userEmail="${userEmail}"
-export passwordKey=$(echo "${passwordKey}" | tr -d " ")
-export platformURL="${platformURL}"
-export postComment="${postComment}"
-export skipComment="${skipComment}"
-export regexFile="${regexFile}"
-export configFile="${configFile}"
-export reportFile="${reportFile}"
-export secretManager="${secretManager}"
-export contactHelp="${contactHelp}"
-export label="${label}"
-export showMatchedSecretOnLogs="${showMatchedSecretOnLogs}"
-export debug="${debug}"
-export reportFormat="${reportFormat}"
-export timeout="${timeout}"
-export limit="${limit}"
-export insecure="${insecure}"
-export map="${map}"
-export mapFile="${mapFile}"
-export scope="${scope}"
-export owner="${owner}"
-export repo="${repo}"
-export branch="${branch}"
-
+# GitHub Actions injects these automatically as INPUT_* vars
+SCAN_TARGET="${INPUT_SCAN-TARGET}"
+USER_EMAIL="${INPUT_USER-EMAIL}"
+PASSWORD_KEY=$(echo "${INPUT_PASSWORD-KEY}" | tr -d " ")
+PLATFORM_URL="${INPUT_PLATFORM-URL}"
+POST_COMMENT="${INPUT_POST-COMMENT}"
+SKIP_COMMENT="${INPUT_SKIP-COMMENT}"
+REGEX_FILE="${INPUT_REGEX-FILE}"
+CONFIG_FILE="${INPUT_CONFIG-FILE}"
+REPORT_FILE="${INPUT_REPORT-FILE:-n0s1_report.json}"
+SECRET_MANAGER="${INPUT_SECRET-MANAGER}"
+CONTACT_HELP="${INPUT_CONTACT-HELP}"
+LABEL="${INPUT_LABEL}"
+SHOW_MATCHED="${INPUT_SHOW-MATCHED-SECRET-ON-LOGS}"
+DEBUG="${INPUT_DEBUG}"
+REPORT_FORMAT="${INPUT_REPORT-FORMAT}"
+TIMEOUT="${INPUT_TIMEOUT}"
+LIMIT="${INPUT_LIMIT}"
+INSECURE="${INPUT_INSECURE}"
+MAP="${INPUT_MAP}"
+MAP_FILE="${INPUT_MAP-FILE}"
+SCOPE="${INPUT_SCOPE}"
+OWNER="${INPUT_OWNER}"
+REPO="${INPUT_REPO}"
+BRANCH="${INPUT_BRANCH}"
+PRIVATE="${INPUT_PRIVATE}"
 
 ARGS=""
-if [ $userEmail ];then
- ARGS="$ARGS --email $userEmail"
-fi
-if [ $passwordKey ];then
- ARGS="$ARGS --api-key $passwordKey"
-else
- export passwordKey="Warning! Password key will be loaded from environment variables."
-fi
-if [ $platformURL ];then
- ARGS="$ARGS --server $platformURL"
-fi
-if [ $postComment ];then
- ARGS="$ARGS --post-comment"
-fi
-if [ $skipComment ];then
- ARGS="$ARGS --skip-comment"
-fi
-if [ $regexFile ];then
- ARGS="$ARGS --regex-file $regexFile"
-fi
-if [ $configFile ];then
- ARGS="$ARGS --config-file $configFile"
-fi
-if [ $reportFile ];then
- ARGS="$ARGS --report-file $reportFile"
-else
- export reportFile="n0s1_report.json"
-fi
-if [ $secretManager ];then
- ARGS="$ARGS --secret-manager $secretManager"
-fi
-if [ $contactHelp ];then
- ARGS="$ARGS --contact-help $contactHelp"
-fi
-if [ $label ];then
- ARGS="$ARGS --label $label"
-fi
-if [ $showMatchedSecretOnLogs ];then
- ARGS="$ARGS --show-matched-secret-on-logs"
-fi
-if [ $debug ];then
- ARGS="$ARGS --debug"
-fi
-if [ $reportFormat ];then
- ARGS="$ARGS --report-format $reportFormat"
-fi
-if [ $timeout ];then
- ARGS="$ARGS --timeout $timeout"
-fi
-if [ $limit ];then
- ARGS="$ARGS --limit $limit"
-fi
-if [ $insecure ];then
- ARGS="$ARGS --insecure"
-fi
-if [ $map ];then
- ARGS="$ARGS --map $map"
-fi
-if [ $mapFile ];then
- ARGS="$ARGS --map-file $mapFile"
-fi
-if [ $scope ];then
- ARGS="$ARGS --scope $scope"
-fi
-if [ $owner ];then
- ARGS="$ARGS --owner $owner"
-fi
-if [ $repo ];then
- ARGS="$ARGS --repo $repo"
-fi
-if [ $branch ];then
- ARGS="$ARGS --branch $branch"
-fi
+[ -n "$USER_EMAIL" ]     && ARGS="$ARGS --email $USER_EMAIL"
+[ -n "$PASSWORD_KEY" ]   && ARGS="$ARGS --api-key $PASSWORD_KEY"
+[ -n "$PLATFORM_URL" ]   && ARGS="$ARGS --server $PLATFORM_URL"
+[ -n "$POST_COMMENT" ]   && ARGS="$ARGS --post-comment"
+[ -n "$SKIP_COMMENT" ]   && ARGS="$ARGS --skip-comment"
+[ -n "$REGEX_FILE" ]     && ARGS="$ARGS --regex-file $REGEX_FILE"
+[ -n "$CONFIG_FILE" ]    && ARGS="$ARGS --config-file $CONFIG_FILE"
+[ -n "$REPORT_FILE" ]    && ARGS="$ARGS --report-file $REPORT_FILE"
+[ -n "$SECRET_MANAGER" ] && ARGS="$ARGS --secret-manager $SECRET_MANAGER"
+[ -n "$CONTACT_HELP" ]   && ARGS="$ARGS --contact-help $CONTACT_HELP"
+[ -n "$LABEL" ]          && ARGS="$ARGS --label $LABEL"
+[ -n "$SHOW_MATCHED" ]   && ARGS="$ARGS --show-matched-secret-on-logs"
+[ -n "$DEBUG" ]          && ARGS="$ARGS --debug"
+[ -n "$REPORT_FORMAT" ]  && ARGS="$ARGS --report-format $REPORT_FORMAT"
+[ -n "$TIMEOUT" ]        && ARGS="$ARGS --timeout $TIMEOUT"
+[ -n "$LIMIT" ]          && ARGS="$ARGS --limit $LIMIT"
+[ -n "$INSECURE" ]       && ARGS="$ARGS --insecure"
+[ -n "$MAP" ]            && ARGS="$ARGS --map $MAP"
+[ -n "$MAP_FILE" ]       && ARGS="$ARGS --map-file $MAP_FILE"
+[ -n "$SCOPE" ]          && ARGS="$ARGS --scope $SCOPE"
+[ -n "$OWNER" ]          && ARGS="$ARGS --owner $OWNER"
+[ -n "$REPO" ]           && ARGS="$ARGS --repo $REPO"
+[ -n "$BRANCH" ]         && ARGS="$ARGS --branch $BRANCH"
+[ -n "$PRIVATE" ]        && ARGS="$ARGS --private"
 
-echo "Running n0s1 with options: n0s1 ${scanTarget} ${ARGS}" | sed "s/$passwordKey/<REDACTED>/g"
-n0s1 ${scanTarget} ${ARGS}
-returnCode=$?
-
+echo "Running n0s1 with options: n0s1 ${SCAN_TARGET} ${ARGS}" | sed "s/$PASSWORD_KEY/<REDACTED>/g"
+n0s1 ${SCAN_TARGET} ${ARGS}
