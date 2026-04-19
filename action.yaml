@@ -55,7 +55,7 @@ inputs:
     required: false
     default: ''
   private:
-    description: 'rivate mode disables all interaction with the n0s1 backend service'
+    description: 'Private mode disables all interaction with the n0s1 backend service'
     required: false
     default: ''
   debug:
