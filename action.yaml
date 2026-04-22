@@ -51,7 +51,7 @@ inputs:
     required: false
     default: ''
   show-matched-secret-on-logs:
-    description: 'Show actual leaked secret on logs (use for debugging only)'
+    description: 'Write actual leaked secret to reports and logs'
     required: false
     default: ''
   ai-analysis:
