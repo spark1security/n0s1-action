@@ -28,6 +28,7 @@ REPO="$(printenv 'INPUT_REPO')"
 BRANCH="$(printenv 'INPUT_BRANCH')"
 PRIVATE="$(printenv 'INPUT_PRIVATE')"
 AI_ANALYSIS="$(printenv 'INPUT_AI-ANALYSIS')"
+N0S1_API_KEY="$(printenv 'INPUT_N0S1-API-KEY' | tr -d ' ')"
 
 ARGS=""
 [ -n "$USER_EMAIL" ]     && ARGS="$ARGS --email $USER_EMAIL"
@@ -55,11 +56,14 @@ ARGS=""
 [ -n "$BRANCH" ]         && ARGS="$ARGS --branch $BRANCH"
 [ -n "$PRIVATE" ]        && ARGS="$ARGS --private"
 [ -n "$AI_ANALYSIS" ]    && ARGS="$ARGS --ai-analysis"
+[ -n "$N0S1_API_KEY" ]   && ARGS="$ARGS --n0s1-api-key $N0S1_API_KEY"
 
 LOG_MSG="Running n0s1 with options: n0s1 ${SCAN_TARGET} ${ARGS}"
 if [ -n "$PASSWORD_KEY" ]; then
-    echo "$LOG_MSG" | sed "s/$PASSWORD_KEY/<REDACTED>/g"
-else
-    echo "$LOG_MSG"
+    LOG_MSG="$(echo "$LOG_MSG" | sed "s/$PASSWORD_KEY/<REDACTED>/g")"
 fi
+if [ -n "$N0S1_API_KEY" ]; then
+    LOG_MSG="$(echo "$LOG_MSG" | sed "s/$N0S1_API_KEY/<REDACTED>/g")"
+fi
+echo "$LOG_MSG"
 n0s1 ${SCAN_TARGET} ${ARGS}

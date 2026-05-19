@@ -94,6 +94,10 @@ inputs:
     description: 'Define a chunk of the map file to be scanned. Ex: 3/4'
     required: false
     default: ''
+  n0s1-api-key:
+    description: 'n0s1 API key for Professional mode. Visit n0s1.spark1.us to issue a new token.'
+    required: false
+    default: ''
   owner:
     description: 'GitHub owner (e.g. user or organization)'
     required: false
