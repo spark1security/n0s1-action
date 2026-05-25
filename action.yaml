@@ -98,6 +98,14 @@ inputs:
     description: 'n0s1 API key for Professional mode. Visit n0s1.spark1.us to issue a new token.'
     required: false
     default: ''
+  report-uuid:
+    description: 'UUID of a previously uploaded report (used with scan-target: analyze)'
+    required: false
+    default: ''
+  wait:
+    description: 'Seconds to poll the backend before giving up (used with scan-target: analyze). Exit 0 on complete, 1 on error/timeout, 2 if still pending.'
+    required: false
+    default: ''
   owner:
     description: 'GitHub owner (e.g. user or organization)'
     required: false

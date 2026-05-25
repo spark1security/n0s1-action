@@ -57,6 +57,8 @@ For scripting or programmatic use outside of GitHub Actions, use the CLI, Docker
 | `owner`                       | no | | GitHub/GitLab org or group name.                                          |
 | `repo`                        | no | | Repository name or GitLab project path.                                   |
 | `branch`                      | no | | Branch name(s). Comma-separated list accepted.                            |
+| `report-uuid`                 | no | | UUID of a previously uploaded report. Used with `scan-target: analyze`.   |
+| `wait`                        | no | | Seconds to poll the backend before giving up. Used with `scan-target: analyze`. Exit `0` = complete, `1` = error/timeout, `2` = still pending. |
 
 ### Valid `scan-target` values
 
@@ -72,6 +74,7 @@ For scripting or programmatic use outside of GitHub Actions, use the CLI, Docker
 | `wrike_scan` | Wrike |
 | `linear_scan` | Linear |
 | `zendesk_scan` | Zendesk |
+| `analyze` | AI analysis — submit or advance async credential validation |
 
 ---
 
@@ -95,6 +98,8 @@ The action wraps the n0s1 CLI. This table resolves naming differences:
 | `secret-manager` | `--secret-manager` | `secret_manager` |
 | `contact-help` | `--contact-help` | `contact_help` |
 | `map-file` | `--map-file` | `map_file` |
+| `report-uuid` | `--report-uuid` | `report_uuid` |
+| `wait` | `--wait` | _(use `analyze_blocking(wait_seconds=…)`)_ |
 | All others | Same name with `--` prefix | Same name with `_` |
 
 ---
@@ -275,6 +280,89 @@ jobs:
           scan-target: linear_scan
           password-key: ${{ secrets.LINEAR_TOKEN }}
           debug: 'true'
+```
+
+### AI analysis — blocking (scan + wait in one job)
+
+Run `ai-analysis: 'true'` on the scan step, then call `analyze` with `wait` to block until the backend finishes. The `wait` value is the polling timeout in seconds.
+
+```yaml
+name: Jira Scan with AI Analysis
+on:
+  schedule:
+    - cron: '0 10 * * 1'
+
+jobs:
+  scan-and-analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scan Jira
+        id: scan
+        uses: spark1security/n0s1-action@main
+        with:
+          scan-target: jira_scan
+          platform-url: https://mycompany.atlassian.net
+          user-email: service@mycompany.com
+          password-key: ${{ secrets.JIRA_TOKEN }}
+          n0s1-api-key: ${{ secrets.N0S1_TOKEN }}
+          ai-analysis: 'true'
+          report-file: jira-scan.json
+
+      - name: Wait for AI analysis
+        uses: spark1security/n0s1-action@main
+        with:
+          scan-target: analyze
+          n0s1-api-key: ${{ secrets.N0S1_TOKEN }}
+          report-file: jira-scan.json
+          wait: '600'   # poll up to 10 minutes; exits 0 on complete, 1 on error/timeout
+```
+
+### AI analysis — retry loop (scan and analyze in separate jobs)
+
+Use exit code `2` (pending) to drive a workflow-level retry without blocking the scan job.
+
+```yaml
+name: Jira Scan with AI Analysis (retry loop)
+on:
+  schedule:
+    - cron: '0 10 * * 1'
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    outputs:
+      report-uuid: ${{ steps.scan.outputs.report-uuid }}
+    steps:
+      - name: Scan Jira
+        id: scan
+        uses: spark1security/n0s1-action@main
+        with:
+          scan-target: jira_scan
+          platform-url: https://mycompany.atlassian.net
+          user-email: service@mycompany.com
+          password-key: ${{ secrets.JIRA_TOKEN }}
+          n0s1-api-key: ${{ secrets.N0S1_TOKEN }}
+          ai-analysis: 'true'
+          report-file: jira-scan.json
+
+  analyze:
+    runs-on: ubuntu-latest
+    needs: scan
+    steps:
+      - name: Advance AI analysis
+        id: analyze
+        uses: spark1security/n0s1-action@main
+        with:
+          scan-target: analyze
+          n0s1-api-key: ${{ secrets.N0S1_TOKEN }}
+          report-file: jira-scan.json
+        continue-on-error: true   # exit 2 (pending) must not fail the job
+
+      - name: Check if still pending
+        if: steps.analyze.outcome == 'failure'
+        run: |
+          echo "Analysis still pending — re-run this job or increase the wait timeout."
+          exit 2
 ```
 
 ### Zendesk scan

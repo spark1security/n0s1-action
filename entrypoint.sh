@@ -29,6 +29,8 @@ BRANCH="$(printenv 'INPUT_BRANCH')"
 PRIVATE="$(printenv 'INPUT_PRIVATE')"
 AI_ANALYSIS="$(printenv 'INPUT_AI-ANALYSIS')"
 N0S1_API_KEY="$(printenv 'INPUT_N0S1-API-KEY' | tr -d ' ')"
+REPORT_UUID="$(printenv 'INPUT_REPORT-UUID' | tr -d ' ')"
+WAIT="$(printenv 'INPUT_WAIT' | tr -d ' ')"
 
 ARGS=""
 [ -n "$USER_EMAIL" ]     && ARGS="$ARGS --email $USER_EMAIL"
@@ -57,6 +59,8 @@ ARGS=""
 [ -n "$PRIVATE" ]        && ARGS="$ARGS --private"
 [ -n "$AI_ANALYSIS" ]    && ARGS="$ARGS --ai-analysis"
 [ -n "$N0S1_API_KEY" ]   && ARGS="$ARGS --n0s1-api-key $N0S1_API_KEY"
+[ -n "$REPORT_UUID" ]   && ARGS="$ARGS --report-uuid $REPORT_UUID"
+[ -n "$WAIT" ]          && ARGS="$ARGS --wait $WAIT"
 
 LOG_MSG="Running n0s1 with options: n0s1 ${SCAN_TARGET} ${ARGS}"
 if [ -n "$PASSWORD_KEY" ]; then
