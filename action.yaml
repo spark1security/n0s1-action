@@ -103,7 +103,11 @@ inputs:
     required: false
     default: ''
   wait:
-    description: 'Seconds to poll the backend before giving up (used with scan-target: analyze). Exit 0 on complete, 1 on error/timeout, 2 if still pending.'
+    description: 'Minutes to poll the backend before giving up. Can be used alongside --ai-analysis for all scan targets, or with scan-target: analyze. Exit 0 on complete, 1 on error/timeout, 2 if still pending.'
+    required: false
+    default: ''
+  allow-secret-upload:
+    description: 'Allow encrypted secrets to be uploaded to the n0s1 backend during AI analysis (default: false)'
     required: false
     default: ''
   owner:
