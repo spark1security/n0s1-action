@@ -58,7 +58,8 @@ For scripting or programmatic use outside of GitHub Actions, use the CLI, Docker
 | `repo`                        | no | | Repository name or GitLab project path.                                   |
 | `branch`                      | no | | Branch name(s). Comma-separated list accepted.                            |
 | `report-uuid`                 | no | | UUID of a previously uploaded report. Used with `scan-target: analyze`.   |
-| `wait`                        | no | | Seconds to poll the backend before giving up. Used with `scan-target: analyze`. Exit `0` = complete, `1` = error/timeout, `2` = still pending. |
+| `wait`                        | no | | Minutes to poll the backend before giving up. Can be used alongside `ai-analysis` for all scan targets, or with `scan-target: analyze`. Exit `0` = complete, `1` = error/timeout, `2` = still pending. |
+| `allow-secret-upload`         | no | | If set, allows encrypted secrets to be uploaded to the n0s1 backend during AI analysis. When omitted, credentials stay local and are injected client-side. |
 
 ### Valid `scan-target` values
 
@@ -99,7 +100,8 @@ The action wraps the n0s1 CLI. This table resolves naming differences:
 | `contact-help` | `--contact-help` | `contact_help` |
 | `map-file` | `--map-file` | `map_file` |
 | `report-uuid` | `--report-uuid` | `report_uuid` |
-| `wait` | `--wait` | _(use `analyze_blocking(wait_seconds=…)`)_ |
+| `wait` | `--wait` | `wait` (int, minutes) |
+| `allow-secret-upload` | `--allow-secret-upload` | `allow_secret_upload` |
 | All others | Same name with `--` prefix | Same name with `_` |
 
 ---
@@ -284,7 +286,7 @@ jobs:
 
 ### AI analysis — blocking (scan + wait in one job)
 
-Run `ai-analysis: 'true'` on the scan step, then call `analyze` with `wait` to block until the backend finishes. The `wait` value is the polling timeout in seconds.
+Add `ai-analysis: 'true'` and `wait: '10'` to the scan step to run the scan and block until AI analysis completes in a single step. The `wait` value is the polling timeout in **minutes**.
 
 ```yaml
 name: Jira Scan with AI Analysis
@@ -296,6 +298,22 @@ jobs:
   scan-and-analyze:
     runs-on: ubuntu-latest
     steps:
+      - name: Scan Jira (with blocking AI analysis)
+        uses: spark1security/n0s1-action@main
+        with:
+          scan-target: jira_scan
+          platform-url: https://mycompany.atlassian.net
+          user-email: service@mycompany.com
+          password-key: ${{ secrets.JIRA_TOKEN }}
+          n0s1-api-key: ${{ secrets.N0S1_TOKEN }}
+          ai-analysis: 'true'
+          wait: '10'    # block up to 10 minutes; exits 0 on complete, 1 on error/timeout
+          report-file: jira-scan.json
+```
+
+Alternatively, keep the scan and analysis as separate steps using `scan-target: analyze`:
+
+```yaml
       - name: Scan Jira
         id: scan
         uses: spark1security/n0s1-action@main
@@ -314,7 +332,7 @@ jobs:
           scan-target: analyze
           n0s1-api-key: ${{ secrets.N0S1_TOKEN }}
           report-file: jira-scan.json
-          wait: '600'   # poll up to 10 minutes; exits 0 on complete, 1 on error/timeout
+          wait: '10'    # poll up to 10 minutes; exits 0 on complete, 1 on error/timeout
 ```
 
 ### AI analysis — retry loop (scan and analyze in separate jobs)
