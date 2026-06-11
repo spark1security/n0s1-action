@@ -57,7 +57,7 @@ For scripting or programmatic use outside of GitHub Actions, use the CLI, Docker
 | `owner`                       | no | | GitHub/GitLab org or group name.                                          |
 | `repo`                        | no | | Repository name or GitLab project path.                                   |
 | `branch`                      | no | | Branch name(s). Comma-separated list accepted.                            |
-| `report-uuid`                 | no | | UUID of a previously uploaded report. Used with `scan-target: analyze`.   |
+| `report-uuid`                 | no | | UUID to assign to the scan report; overrides the auto-generated one. Also used with `scan-target: analyze` to identify a previously uploaded report. |
 | `wait`                        | no | | Minutes to poll the backend before giving up. Can be used alongside `ai-analysis` for all scan targets, or with `scan-target: analyze`. Exit `0` = complete, `1` = error/timeout, `2` = still pending. |
 | `allow-secret-upload`         | no | | If set, allows encrypted secrets to be uploaded to the n0s1 backend during AI analysis. When omitted, credentials stay local and are injected client-side. |
 

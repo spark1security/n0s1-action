@@ -99,7 +99,7 @@ inputs:
     required: false
     default: ''
   report-uuid:
-    description: 'UUID of a previously uploaded report (used with scan-target: analyze)'
+    description: 'UUID to assign to the scan report. When set, overrides the auto-generated UUID written to the report JSON. Also used with scan-target: analyze to identify a previously uploaded report.'
     required: false
     default: ''
   wait:
